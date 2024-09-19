@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/b13eab0f-3916-4711-ba2d-afe45561444c)# SQL_Banking_Explore
+# SQL_Banking_Explore
 Use SQL to query and analyze data related to savings accounts and generate bank capital mobilization reports
 
 ## **1. INTRODUCTION**
@@ -379,13 +379,21 @@ SELECT * FROM [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
 ```
 **RESULT**
 
+![image](https://github.com/user-attachments/assets/b13eab0f-3916-4711-ba2d-afe45561444c)
 
 
-|Tiêu chí	|Quý I	|Quý II	|Quý III	|Quý IV|
+|	|	|	|Quý II	|Quý IV|
 | :------------: | :-------------: | :-----: | :-----: |
-|Số tiền gốc phải trả|	 900,000,000 |	 650,000,000| 	 1,131,709,472| 	 1,041,764,834| 
-|Số tiền lãi phải trả|	 192,672,000| 	 60,535,397| 	 95,909,301| 	 86,181,066 |
-|Tổng	 |1,092,672,000| 	 710,535,397| 	 1,227,618,773| 	 1,127,945,900| 
+||	  |	 | 	 | 	 | 
+||	 192,672,000| 	 60,535,397| 	 95,909,301| 	 86,181,066 |
+|	 |1,092,672,000| 	 710,535,397| 	 1,227,618,773| 	 1,127,945,900| 
+
+|      Tiêu chí       |      Quý I       | Quý II    |Quý III| Quý IV|
+| :------------:|:-------------:|:-----:|:-----:|:-----:|
+|    Số tiền gốc phải trả          |        900,000,000      |  650,000,000    |  1,131,709,472    |1,041,764,834    |
+|     Số tiền lãi phải trả         |        62192      |   233373   |  733    |713    |
+|     Tổng         | 69931             |    259522  |  993    |713    |
+
 
 
 

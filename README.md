@@ -1,4 +1,4 @@
-# SQL_Banking_Explore
+![image](https://github.com/user-attachments/assets/b13eab0f-3916-4711-ba2d-afe45561444c)# SQL_Banking_Explore
 Use SQL to query and analyze data related to savings accounts and generate bank capital mobilization reports
 
 ## **1. INTRODUCTION**
@@ -256,3 +256,140 @@ SELECT * FROM [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
 | 3 | Tổng tiền tiết kiệm | 4.424.952.249 | 56.175.392.000 | 900.000.000 | 17.133.670.000 | 650.000.000 | 76.184.014.249 |
 
 **=>** Monitor capital mobilization: The report tracks the number of savings accounts and the amount of capital raised through the quarters, specifically for Q1 and Q2 of 2024, compared to the situation at the end of the previous year (31-12-23) and the end of the reporting period (30-06-24). This gives the bank an overall view of capital mobilization in the first half of the year.
+
+***Query 01:*** Calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)
+
+**CODE:**
+```sql
+
+-- TẠO BẢNG BÁO CÁO THEO TEMPLATE
+DROP TABLE [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
+CREATE TABLE [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM](
+   STT					Int
+  ,[TIÊU CHÍ]			Nvarchar(100)
+  ,[QUÝ I]			bigint
+  ,[QUÝ II]				bigint
+  ,[QUÝ III]			bigint
+  ,[QUÝ IV]				bigint
+);
+ 
+-- INSERT CÁC THÔNG TIN CỐ ĐỊNH VÀO BÁO CÁO
+
+INSERT INTO [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
+(
+	 STT
+	,[TIÊU CHÍ]
+	,[QUÝ I]
+	,[QUÝ II]	
+	,[QUÝ III]
+	,[QUÝ IV]
+)
+VALUES
+ (1,N'Số tiền gốc phải trả',NULL,NULL,NULL,NULL)
+,(2,N'Số tiền lãi phải trả',NULL,NULL,NULL,NULL)
+,(3,N'Tổng',NULL,NULL,NULL,NULL)
+
+UPDATE [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
+	SET [QUÝ I] =
+	(
+		CASE WHEN [TIÊU CHÍ] = N'Số tiền gốc phải trả' THEN (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-01-01' AND '2024-03-31')
+		     WHEN [TIÊU CHÍ] = N'Số tiền lãi phải trả' THEN 
+				(SELECT 
+					ROUND(SUM(((Value * interest/100)/365) * DATEDIFF(DAY,Sav_Date,Sav_end_date)),0) -- Tính toán lãi theo ngày
+				FROM SAVING_ACCOUNT
+				WHERE DATEPART(QUARTER,SAV_END_DATE) = 1 AND YEAR(Sav_end_date)=2024)
+		   	 WHEN [TIÊU CHÍ] = N'Tổng'				   THEN
+			 (
+			 (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-01-01' AND '2024-03-31')
+			 +
+			 (SELECT 
+				ROUND(SUM(((Value * interest/100)/365) * DATEDIFF(DAY,Sav_Date,Sav_end_date)),0)
+			 FROM SAVING_ACCOUNT
+			 WHERE DATEPART(QUARTER,SAV_END_DATE) = 1 AND YEAR(Sav_end_date)=2024)
+			 )
+			 END
+	)
+
+UPDATE [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
+	SET [QUÝ II] =
+	(
+		CASE WHEN [TIÊU CHÍ] = N'Số tiền gốc phải trả' THEN (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-04-01' AND '2024-06-30')
+		     WHEN [TIÊU CHÍ] = N'Số tiền lãi phải trả' THEN 
+				(SELECT 
+					ROUND(SUM(((Value * interest/100)/365) * DATEDIFF(DAY,Sav_Date,Sav_end_date)),0) -- Tính toán lãi theo ngày
+				FROM SAVING_ACCOUNT
+				WHERE DATEPART(QUARTER,SAV_END_DATE) = 2 AND YEAR(Sav_end_date)=2024)
+		   	 WHEN [TIÊU CHÍ] = N'Tổng'				   THEN
+			 (
+			 (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-04-01' AND '2024-06-30')
+			 +
+			 (SELECT 
+				ROUND(SUM(((Value * interest/100)/365) * DATEDIFF(DAY,Sav_Date,Sav_end_date)),0)
+			 FROM SAVING_ACCOUNT
+			 WHERE DATEPART(QUARTER,SAV_END_DATE) = 2 AND YEAR(Sav_end_date)=2024)
+			 )
+			 END
+	)
+
+UPDATE [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
+	SET [QUÝ III] =
+	(
+		CASE WHEN [TIÊU CHÍ] = N'Số tiền gốc phải trả' THEN (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-07-01' AND '2024-09-30')
+		     WHEN [TIÊU CHÍ] = N'Số tiền lãi phải trả' THEN 
+				(SELECT 
+					ROUND(SUM(((Value * interest/100)/365) * DATEDIFF(DAY,Sav_Date,Sav_end_date)),0) -- Tính toán lãi theo ngày
+				FROM SAVING_ACCOUNT
+				WHERE DATEPART(QUARTER,SAV_END_DATE) = 3 AND YEAR(Sav_end_date)=2024)
+		   	 WHEN [TIÊU CHÍ] = N'Tổng'				   THEN
+			 (
+			 (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-07-01' AND '2024-09-30')
+			 +
+			 (SELECT 
+				ROUND(SUM(((Value * interest/100)/365) * DATEDIFF(DAY,Sav_Date,Sav_end_date)),0)
+			 FROM SAVING_ACCOUNT
+			 WHERE DATEPART(QUARTER,SAV_END_DATE) = 3 AND YEAR(Sav_end_date)=2024)
+			 )
+			 END
+	)
+
+UPDATE [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
+	SET [QUÝ IV] =
+	(
+		CASE WHEN [TIÊU CHÍ] = N'Số tiền gốc phải trả' THEN (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-10-01' AND '2024-12-31')
+		     WHEN [TIÊU CHÍ] = N'Số tiền lãi phải trả' THEN 
+				(SELECT 
+					ROUND(SUM(((Value * interest/100)/365) * DATEDIFF(DAY,Sav_Date,Sav_end_date)),0) -- Tính toán lãi theo ngày
+				FROM SAVING_ACCOUNT
+				WHERE DATEPART(QUARTER,SAV_END_DATE) = 4 AND YEAR(Sav_end_date)=2024)
+		   	 WHEN [TIÊU CHÍ] = N'Tổng'				   THEN
+			 (
+			 (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-10-01' AND '2024-12-31')
+			 +
+			 (SELECT 
+				ROUND(SUM(((Value * interest/100)/365) * DATEDIFF(DAY,Sav_Date,Sav_end_date)),0)
+			 FROM SAVING_ACCOUNT
+			 WHERE DATEPART(QUARTER,SAV_END_DATE) = 4 AND YEAR(Sav_end_date)=2024)
+			 )
+			 END
+	)
+
+-- KẾT QUẢ
+
+SELECT * FROM [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
+```
+**RESULT**
+
+
+
+|Tiêu chí	|Quý I	|Quý II	|Quý III	|Quý IV|
+| :------------: | :-------------: | :-----: | :-----: |
+|Số tiền gốc phải trả|	 900,000,000 |	 650,000,000| 	 1,131,709,472| 	 1,041,764,834| 
+|Số tiền lãi phải trả|	 192,672,000| 	 60,535,397| 	 95,909,301| 	 86,181,066 |
+|Tổng	 |1,092,672,000| 	 710,535,397| 	 1,227,618,773| 	 1,127,945,900| 
+
+
+
+**=>** Monitor capital mobilization: The report tracks the number of savings accounts and the amount of capital raised through the quarters, specifically for Q1 and Q2 of 2024, compared to the situation at the end of the previous year (31-12-23) and the end of the reporting period (30-06-24). This gives the bank an overall view of capital mobilization in the first half of the year.
+
+
+

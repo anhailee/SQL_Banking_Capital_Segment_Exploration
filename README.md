@@ -379,25 +379,47 @@ SELECT * FROM [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
 ```
 **RESULT**
 
-![image](https://github.com/user-attachments/assets/b13eab0f-3916-4711-ba2d-afe45561444c)
-
-
-|	|	|	|Quý II	|Quý IV|
-| :------------: | :-------------: | :-----: | :-----: |
-||	  |	 | 	 | 	 | 
-||	 192,672,000| 	 60,535,397| 	 95,909,301| 	 86,181,066 |
-|	 |1,092,672,000| 	 710,535,397| 	 1,227,618,773| 	 1,127,945,900| 
-
 |      Tiêu chí       |      Quý I       | Quý II    |Quý III| Quý IV|
 | :------------:|:-------------:|:-----:|:-----:|:-----:|
 |    Số tiền gốc phải trả          |        900,000,000      |  650,000,000    |  1,131,709,472    |1,041,764,834    |
 |     Số tiền lãi phải trả         |        62192      |   233373   |  733    |713    |
 |     Tổng         | 69931             |    259522  |  993    |713    |
 
+**Query 03:*** Calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)
+
+**CODE:**
+```sql
+
+SELECT 
+PHANLOAI
+,COUNT(Saving_account_ID) AS [SỐ TÀI KHOẢN TIẾT KIỆM]
+,SUM(VALUE) AS [SỐ TIỀN TIẾT KIỆM]
+FROM(
+	SELECT 
+	Saving_account_ID
+	,Value
+	,CASE WHEN Value < 1000000000 THEN 'DUOI_1_TY' 
+		WHEN Value BETWEEN 1000000000 AND 10000000000 THEN 'TU_1_DEN_10TYR'
+		WHEN Value BETWEEN 10000000000 AND 50000000000 THEN 'TU_10_DEN_50TYR'
+		ELSE 'TREN50TY' END AS [PHANLOAI]
+	FROM SAVING_ACCOUNT
+	WHERE Sav_Date BETWEEN '2024-01-01' AND '2024-06-30') X
+GROUP BY PHANLOAI
+```
+**RESULT**
+
+|      PHÂN LOẠI       |      SỐ TÀI KHOẢN TIẾT KIỆM       | SỐ TIỀN TIẾT KIỆM    |
+| :------------:|:-------------:|:-----:|
+|    DUOI_1_TY          |        35      |  9,759,062,000    | 
+|     TU_1_DEN_10TYR        |        13     |   48,550,000,000   | 
+|     TU_10_DEN_50TYR        | 1            |    	15,000,000,000  | 
 
 
+**=>** The data shows that the majority of savings accounts are under 1 billion VND, accounting for 71% of total accounts but contributing only 13% to the total savings amount. Meanwhile, accounts ranging from 1 to 10 billion VND make up 27% of the accounts but contribute 66% of the total savings. Notably, only 1 account in the 10 to 50 billion VND range (accounting for 2%) holds 21% of the total savings.
 
-**=>** Monitor capital mobilization: The report tracks the number of savings accounts and the amount of capital raised through the quarters, specifically for Q1 and Q2 of 2024, compared to the situation at the end of the previous year (31-12-23) and the end of the reporting period (30-06-24). This gives the bank an overall view of capital mobilization in the first half of the year.
+=> Insight: Although small accounts are numerous, they contribute little, whereas larger accounts, though fewer in number, hold a significant portion of the savings. This indicates a concentration of wealth among a small group of individuals with large deposits.
+
+
 
 
 

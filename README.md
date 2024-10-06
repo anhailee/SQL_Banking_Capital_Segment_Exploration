@@ -1,4 +1,4 @@
-# SQL_Banking_Explore
+# SQL_Banking_CapitalSegment_Exploration
 Use SQL to query and analyze data related to savings accounts and generate bank capital mobilization reports
 
 ## **1. INTRODUCTION**

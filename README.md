@@ -44,10 +44,10 @@ WITH DATA_TKTIETKIEM AS
 			-- DK
 			(
 				SELECT 
-					Cust_ID						AS [DAUKY_MKH]
+					Cust_ID					AS [DAUKY_MKH]
 					,Saving_account_ID			AS [DAUKY_MATK]
-					,Value						AS [DAUKY_TONGTIENTK]
-					,Sav_Date					AS [DAUKY_NGAYBATDAU]
+					,Value					AS [DAUKY_TONGTIENTK]
+					,Sav_Date				AS [DAUKY_NGAYBATDAU]
 					,Sav_end_date				AS [DAUKY_NGAYTATTOAN]
 				FROM SAVING_ACCOUNT
 				WHERE Sav_Date <= '2023-12-31' AND (Sav_end_date > '2023-12-31' OR withdraw_day > '2023-12-31')
@@ -55,10 +55,10 @@ WITH DATA_TKTIETKIEM AS
 			FULL OUTER JOIN
 			(
 				SELECT 
-					Cust_ID						AS [MOMOI_MKH]
+					Cust_ID					AS [MOMOI_MKH]
 					,Saving_account_ID			AS [MOMOI_MATK]
-					,Value						AS [MOMOI_TONGTIENTK]
-					,Sav_Date					AS [MOMOI_NGAYBATDAU]
+					,Value					AS [MOMOI_TONGTIENTK]
+					,Sav_Date				AS [MOMOI_NGAYBATDAU]
 					,Sav_end_date				AS [MOMOI_NGAYTATTOAN]
 				FROM SAVING_ACCOUNT
 				WHERE Sav_Date BETWEEN '2024-01-01' AND '2024-06-30'  		
@@ -69,10 +69,10 @@ WITH DATA_TKTIETKIEM AS
 			LEFT JOIN
 			(
 				SELECT 
-					Cust_ID						AS [TATTOAN_MKH]
+					Cust_ID					AS [TATTOAN_MKH]
 					,Saving_account_ID			AS [TATTOAN_MATK]
-					,Value						AS [TATTOAN_TONGTIENTK]
-					,Sav_Date					AS [TATTOAN_NGAYBATDAU]
+					,Value					AS [TATTOAN_TONGTIENTK]
+					,Sav_Date				AS [TATTOAN_NGAYBATDAU]
 					,Sav_end_date				AS [TATTOAN_NGAYTATTOAN]
 				FROM SAVING_ACCOUNT
 				WHERE Sav_end_date BETWEEN '2024-01-01' AND '2024-06-30'
@@ -83,10 +83,10 @@ WITH DATA_TKTIETKIEM AS
 			LEFT JOIN
 			(
 				SELECT
-					Cust_ID						AS [CUOIKY_MKH]
+					Cust_ID					AS [CUOIKY_MKH]
 					,Saving_account_ID			AS [CUOIKY_MATK]
-					,Value						AS [CUOIKY_TONGTIENTK]
-					,Sav_Date					AS [CUOIKY_NGAYBATDAU]
+					,Value					AS [CUOIKY_TONGTIENTK]
+					,Sav_Date				AS [CUOIKY_NGAYBATDAU]
 					,Sav_end_date				AS [CUOIKY_NGAYTATTOAN]
 				FROM SAVING_ACCOUNT
 				WHERE Sav_date <= '2024-06-30' AND Sav_end_date > '2024-06-30'			
@@ -107,13 +107,13 @@ SELECT * FROM DATA_TKTIETKIEM_FINAL
 DROP TABLE [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
 CREATE TABLE [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
 (
-   STT									Int
-  ,[NỘI DUNG]							Nvarchar(100)
+   STT						Int
+  ,[NỘI DUNG]					Nvarchar(100)
   ,[TẠI THỜI ĐIỂM 31/12/2023]			bigint
-  ,[MỞ MỚI_Q1_24]						bigint
-  ,[TẤT TOÁN_Q1_24]						bigint
-  ,[MỞ MỚI_Q2_24]						bigint
-  ,[TẤT TOÁN_Q2_24]						bigint
+  ,[MỞ MỚI_Q1_24]				bigint
+  ,[TẤT TOÁN_Q1_24]				bigint
+  ,[MỞ MỚI_Q2_24]				bigint
+  ,[TẤT TOÁN_Q2_24]				bigint
   ,[TẠI THỜI ĐIỂM 30/06/2024]			bigint
 );
 
@@ -138,8 +138,8 @@ VALUES
 UPDATE [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
 SET [TẠI THỜI ĐIỂM 31/12/2023] = (
 CASE WHEN [NỘI DUNG] = N'Số khoản tiết kiệm'		THEN (SELECT COUNT(DISTINCT(DAUKY_MATK)) FROM DATA_TKTIETKIEM_FINAL)
-	 WHEN [NỘI DUNG] = N'Số lượng khách hàng'		THEN (SELECT COUNT(DISTINCT(DAUKY_MKH))  FROM DATA_TKTIETKIEM_FINAL)
-	 WHEN [NỘI DUNG] = N'Tổng tiền gửi tiết kiệm'	THEN (SELECT SUM(DAUKY_TONGTIENTK)		 FROM DATA_TKTIETKIEM_FINAL) 
+	 WHEN [NỘI DUNG] = N'Số lượng khách hàng'	THEN (SELECT COUNT(DISTINCT(DAUKY_MKH))  FROM DATA_TKTIETKIEM_FINAL)
+	 WHEN [NỘI DUNG] = N'Tổng tiền gửi tiết kiệm'	THEN (SELECT SUM(DAUKY_TONGTIENTK)	 FROM DATA_TKTIETKIEM_FINAL) 
 	 END
 )	
 -- MỞ MỚI

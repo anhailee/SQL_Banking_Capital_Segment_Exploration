@@ -37,15 +37,11 @@ The data includes detailed information about customers' savings accounts, such a
 **CODE:**
 ```sql
 
--------------------------------------------
-/*TẠO DATA ĐỂ TRUY VẤN*/
--------------------------------------------
--- Đặt tên Data là DATA_TKTIETKIEM
 WITH DATA_TKTIETKIEM AS
 	(
 	SELECT * FROM
 		(SELECT * FROM
-			-- ĐẦU KỲ
+			-- DK
 			(
 				SELECT 
 					Cust_ID						AS [DAUKY_MKH]
@@ -55,7 +51,7 @@ WITH DATA_TKTIETKIEM AS
 					,Sav_end_date				AS [DAUKY_NGAYTATTOAN]
 				FROM SAVING_ACCOUNT
 				WHERE Sav_Date <= '2023-12-31' AND (Sav_end_date > '2023-12-31' OR withdraw_day > '2023-12-31')
-			-- MỞ MỚI
+			-- MM
 			FULL OUTER JOIN
 			(
 				SELECT 
@@ -69,7 +65,7 @@ WITH DATA_TKTIETKIEM AS
 			) MOMOI
 			ON DAUKY.DAUKY_MATK = MOMOI.MOMOI_MATK) AS X
 			
-			-- TẤT TOÁN
+			-- TT
 			LEFT JOIN
 			(
 				SELECT 
@@ -83,7 +79,7 @@ WITH DATA_TKTIETKIEM AS
 					OR withdraw_day BETWEEN '2024-01-01' AND '2024-06-30'	
 			) TATTOAN
 			ON ISNULL(X.DAUKY_MATK,'') + ISNULL(X.MOMOI_MATK,'') = TATTOAN.TATTOAN_MATK
-			-- CUỐI KỲ
+			-- CK
 			LEFT JOIN
 			(
 				SELECT
@@ -97,18 +93,17 @@ WITH DATA_TKTIETKIEM AS
 			) CUOIKY
 			ON ISNULL(X.DAUKY_MATK,'') + ISNULL(X.MOMOI_MATK,'') = CUOIKY.CUOIKY_MATK
 )
---drop table DATA_TKTIETKIEM_FINAL
--- ĐẶT TÊN CHO BẢNG DỮ LIỆU FINAL
+-- NAME THE FINAL DATA TABLE
 SELECT * 
 INTO DATA_TKTIETKIEM_FINAL
 FROM DATA_TKTIETKIEM
 
 SELECT * FROM DATA_TKTIETKIEM_FINAL
 ----------------------------------------------------
--- BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM
+**Report on Capital Mobilization in the First 6 Months of the Year**
 ----------------------------------------------------
 
--- TẠO BẢNG BÁO CÁO THEO TEMPLATE
+-- CREATE REPORT BY TEMPLATE
 DROP TABLE [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
 CREATE TABLE [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
 (

@@ -104,49 +104,49 @@ SELECT * FROM DATA_TKTIETKIEM_FINAL
 ----------------------------------------------------
 
 -- CREATE REPORT BY TEMPLATE
-DROP TABLE [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
-CREATE TABLE [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
+DROP TABLE [Report on Capital Mobilization in the First 6 Months of the Year]
+CREATE TABLE [Report on Capital Mobilization in the First 6 Months of the Year]
 (
    STT						Int
-  ,[NỘI DUNG]					Nvarchar(100)
-  ,[TẠI THỜI ĐIỂM 31/12/2023]			bigint
-  ,[MỞ MỚI_Q1_24]				bigint
-  ,[TẤT TOÁN_Q1_24]				bigint
-  ,[MỞ MỚI_Q2_24]				bigint
-  ,[TẤT TOÁN_Q2_24]				bigint
-  ,[TẠI THỜI ĐIỂM 30/06/2024]			bigint
+  ,[NOI DUNG]					Nvarchar(100)
+  ,[TAI THOI DIEM 31/12/2023]			bigint
+  ,[MO MOI_Q1_24]				bigint
+  ,[TAT TOAN_Q1_24]				bigint
+  ,[MO MOI_Q2_24]				bigint
+  ,[TAT TOAN_Q2_24]				bigint
+  ,[TAI THOI DIEM 30/06/2024]			bigint
 );
 
-INSERT INTO [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
+INSERT INTO [Report on Capital Mobilization in the First 6 Months of the Year]
 (
 	 STT
-	,[NỘI DUNG]
-	,[TẠI THỜI ĐIỂM 31/12/2023]
-	,[MỞ MỚI_Q1_24]
-	,[TẤT TOÁN_Q1_24]
-	,[MỞ MỚI_Q2_24]
-	,[TẤT TOÁN_Q2_24]
-	,[TẠI THỜI ĐIỂM 30/06/2024]
+	,[NOI DUNG]
+	,[TAI THOI DIEM 31/12/2023]
+	,[MO MOI_Q1_24]
+	,[TAT TOAN_Q1_24]
+	,[MO MOI_Q2_24]
+	,[TAT TOAN_Q2_24]
+	,[TAI THOI DIEM 30/06/2024]
 )
 VALUES
  (1,N'Số khoản tiết kiệm',NULL,NULL,NULL,NULL,NULL,NULL)
 ,(2,N'Số lượng khách hàng',NULL,NULL,NULL,NULL,NULL,NULL)
 ,(3,N'Tổng tiền gửi tiết kiệm',NULL,NULL,NULL,NULL,NULL,NULL)
 
--- I. UPDATE CÁC THÔNG TIN LIÊN QUAN ĐẾN SỐ KHOẢN TIẾT KIỆM (SKTK)
--- ĐẦU KỲ:
-UPDATE [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
-SET [TẠI THỜI ĐIỂM 31/12/2023] = (
-CASE WHEN [NỘI DUNG] = N'Số khoản tiết kiệm'		THEN (SELECT COUNT(DISTINCT(DAUKY_MATK)) FROM DATA_TKTIETKIEM_FINAL)
-	 WHEN [NỘI DUNG] = N'Số lượng khách hàng'	THEN (SELECT COUNT(DISTINCT(DAUKY_MKH))  FROM DATA_TKTIETKIEM_FINAL)
-	 WHEN [NỘI DUNG] = N'Tổng tiền gửi tiết kiệm'	THEN (SELECT SUM(DAUKY_TONGTIENTK)	 FROM DATA_TKTIETKIEM_FINAL) 
+-- I. UPDATE INFORMATION RELATED TO SAVINGS ACCOUNT NUMBER (SKTK)
+-- DK:
+UPDATE [Report on Capital Mobilization in the First 6 Months of the Year]
+SET [TAI THOI DIEM 31/12/2023] = (
+CASE WHEN [NOI DUNG] = N'Số khoản tiết kiệm'		THEN (SELECT COUNT(DISTINCT(DAUKY_MATK)) FROM DATA_TKTIETKIEM_FINAL)
+	 WHEN [NOI DUNG] = N'Số lượng khách hàng'	THEN (SELECT COUNT(DISTINCT(DAUKY_MKH))  FROM DATA_TKTIETKIEM_FINAL)
+	 WHEN [NOI DUNG] = N'Tổng tiền gửi tiết kiệm'	THEN (SELECT SUM(DAUKY_TONGTIENTK)	 FROM DATA_TKTIETKIEM_FINAL) 
 	 END
 )	
--- MỞ MỚI
-UPDATE [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
-SET [MỞ MỚI_Q1_24] = (
-CASE WHEN [NỘI DUNG] = N'Số khoản tiết kiệm'		THEN (SELECT COUNT(DISTINCT(MOMOI_MATK)) FROM DATA_TKTIETKIEM_FINAL WHERE DAUKY_MATK IS NULL AND DATEPART(QUARTER,MOMOI_NGAYBATDAU) = 1)
-	 WHEN [NỘI DUNG] = N'Số lượng khách hàng'		THEN 
+-- MM
+UPDATE [Report on Capital Mobilization in the First 6 Months of the Year]
+SET [MO MOI_Q1_24] = (
+CASE WHEN [NOI DUNG] = N'Số khoản tiết kiệm'		THEN (SELECT COUNT(DISTINCT(MOMOI_MATK)) FROM DATA_TKTIETKIEM_FINAL WHERE DAUKY_MATK IS NULL AND DATEPART(QUARTER,MOMOI_NGAYBATDAU) = 1)
+	 WHEN [NOI DUNG] = N'Số lượng khách hàng'		THEN 
 		(SELECT 
 			COUNT(MOMOI_MKH) AS [MOMOI_SOLUONGKH]
 		FROM
@@ -160,11 +160,11 @@ CASE WHEN [NỘI DUNG] = N'Số khoản tiết kiệm'		THEN (SELECT COUNT(DISTI
 			FROM DATA_TKTIETKIEM_FINAL) DK
 			ON MM.MOMOI_MKH = DK.DAUKY_MKH
 			WHERE DK.DAUKY_MKH IS NULL)
-	 WHEN [NỘI DUNG] = N'Tổng tiền gửi tiết kiệm'	THEN (SELECT SUM(MOMOI_TONGTIENTK) FROM DATA_TKTIETKIEM_FINAL WHERE DAUKY_MATK IS NULL AND DATEPART(QUARTER,MOMOI_NGAYBATDAU) = 1) 
+	 WHEN [NOI DUNG] = N'Tổng tiền gửi tiết kiệm'	THEN (SELECT SUM(MOMOI_TONGTIENTK) FROM DATA_TKTIETKIEM_FINAL WHERE DAUKY_MATK IS NULL AND DATEPART(QUARTER,MOMOI_NGAYBATDAU) = 1) 
 	 END
 )	
-UPDATE [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
-SET [MỞ MỚI_Q2_24] = (
+UPDATE [Report on Capital Mobilization in the First 6 Months of the Year]
+SET [MO MOI_Q2_24] = (
 CASE WHEN [NỘI DUNG] = N'Số khoản tiết kiệm'		THEN (SELECT COUNT(DISTINCT(MOMOI_MATK)) FROM DATA_TKTIETKIEM_FINAL WHERE DAUKY_MATK IS NULL AND DATEPART(QUARTER,MOMOI_NGAYBATDAU) = 2)
 	 WHEN [NỘI DUNG] = N'Số lượng khách hàng'		THEN 
 		(SELECT 
@@ -188,11 +188,11 @@ WHERE DK.DAUKY_MKH IS NULL
 	 WHEN [NỘI DUNG] = N'Tổng tiền gửi tiết kiệm'	THEN (SELECT SUM(MOMOI_TONGTIENTK) FROM DATA_TKTIETKIEM_FINAL WHERE DAUKY_MATK IS NULL AND DATEPART(QUARTER,MOMOI_NGAYBATDAU) = 2) 
 	 END
 )	
--- TẤT TOÁN:
-UPDATE [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
-SET [TẤT TOÁN_Q1_24] = (
+-- TT:
+UPDATE [Report on Capital Mobilization in the First 6 Months of the Year]
+SET [TAT TOAN_Q1_24] = (
 CASE WHEN [NỘI DUNG] = N'Số khoản tiết kiệm'		THEN (SELECT COUNT(DISTINCT(TATTOAN_MATK)) FROM DATA_TKTIETKIEM_FINAL WHERE CUOIKY_MATK IS NULL AND DATEPART(QUARTER,TATTOAN_NGAYTATTOAN) = 1 )
-	 WHEN [NỘI DUNG] = N'Số lượng khách hàng'		THEN 
+	 WHEN [NOI DUNG] = N'Số lượng khách hàng'		THEN 
 		(SELECT 
 			COUNT(TATTOAN_MKH) AS [TATTOAN_SOLUONGKH]
 		FROM
@@ -206,14 +206,14 @@ CASE WHEN [NỘI DUNG] = N'Số khoản tiết kiệm'		THEN (SELECT COUNT(DISTI
 			FROM DATA_TKTIETKIEM_FINAL) CK
 			ON TT.TATTOAN_MKH = CK.CUOIKY_MKH
 			WHERE CK.CUOIKY_MKH IS NULL)
-	WHEN [NỘI DUNG] = N'Tổng tiền gửi tiết kiệm'	THEN (SELECT SUM(TATTOAN_TONGTIENTK) FROM DATA_TKTIETKIEM_FINAL WHERE CUOIKY_MATK IS NULL AND DATEPART(QUARTER,TATTOAN_NGAYTATTOAN) = 1) 
+	WHEN [NOI DUNG] = N'Tổng tiền gửi tiết kiệm'	THEN (SELECT SUM(TATTOAN_TONGTIENTK) FROM DATA_TKTIETKIEM_FINAL WHERE CUOIKY_MATK IS NULL AND DATEPART(QUARTER,TATTOAN_NGAYTATTOAN) = 1) 
 	END
 )
 -- Q2/2024
-UPDATE [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
-SET [TẤT TOÁN_Q2_24] = (
+UPDATE [Report on Capital Mobilization in the First 6 Months of the Year]
+SET [TAT TOAN_Q2_24] = (
 CASE WHEN [NỘI DUNG] = N'Số khoản tiết kiệm'		THEN (SELECT COUNT(DISTINCT(TATTOAN_MATK)) FROM DATA_TKTIETKIEM_FINAL WHERE CUOIKY_MATK IS NULL AND DATEPART(QUARTER,TATTOAN_NGAYTATTOAN) = 2)
-	 WHEN [NỘI DUNG] = N'Số lượng khách hàng'		THEN 
+	 WHEN [NOI DUNG] = N'Số lượng khách hàng'		THEN 
 		(SELECT 
 			COUNT(TATTOAN_MKH) AS [TATTOAN_SOLUONGKH]
 		FROM
@@ -227,24 +227,24 @@ CASE WHEN [NỘI DUNG] = N'Số khoản tiết kiệm'		THEN (SELECT COUNT(DISTI
 			FROM DATA_TKTIETKIEM_FINAL) CK
 			ON TT.TATTOAN_MKH = CK.CUOIKY_MKH
 			WHERE CK.CUOIKY_MKH IS NULL)
-	WHEN [NỘI DUNG] = N'Tổng tiền gửi tiết kiệm'	THEN (SELECT SUM(TATTOAN_TONGTIENTK) FROM DATA_TKTIETKIEM_FINAL WHERE CUOIKY_MATK IS NULL AND DATEPART(QUARTER,TATTOAN_NGAYTATTOAN) = 2) 
+	WHEN [NOI DUNG] = N'Tổng tiền gửi tiết kiệm'	THEN (SELECT SUM(TATTOAN_TONGTIENTK) FROM DATA_TKTIETKIEM_FINAL WHERE CUOIKY_MATK IS NULL AND DATEPART(QUARTER,TATTOAN_NGAYTATTOAN) = 2) 
 	END
 )	
--- CUỐI KỲ:
-UPDATE [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
-SET [TẠI THỜI ĐIỂM 30/06/2024] = (
-CASE WHEN [NỘI DUNG] = N'Số khoản tiết kiệm'		THEN (SELECT COUNT(DISTINCT(CUOIKY_MATK)) FROM DATA_TKTIETKIEM_FINAL)
-	 WHEN [NỘI DUNG] = N'Số lượng khách hàng'		THEN (SELECT COUNT(DISTINCT(CUOIKY_MKH))  FROM DATA_TKTIETKIEM_FINAL)
-	 WHEN [NỘI DUNG] = N'Tổng tiền gửi tiết kiệm'	THEN (SELECT SUM(CUOIKY_TONGTIENTK)		  FROM DATA_TKTIETKIEM_FINAL) 
+-- CK:
+UPDATE [Report on Capital Mobilization in the First 6 Months of the Year]
+SET [TAI THOI DIEM 30/06/2024] = (
+CASE WHEN [NOI DUNG] = N'Số khoản tiết kiệm'		THEN (SELECT COUNT(DISTINCT(CUOIKY_MATK)) FROM DATA_TKTIETKIEM_FINAL)
+	 WHEN [NOI DUNG] = N'Số lượng khách hàng'		THEN (SELECT COUNT(DISTINCT(CUOIKY_MKH))  FROM DATA_TKTIETKIEM_FINAL)
+	 WHEN [NOI DUNG] = N'Tổng tiền gửi tiết kiệm'	THEN (SELECT SUM(CUOIKY_TONGTIENTK)		  FROM DATA_TKTIETKIEM_FINAL) 
 	 END
 )
 
--- KẾT QUẢ:
-SELECT * FROM [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
+-- RESULT:
+SELECT * FROM [Report on Capital Mobilization in the First 6 Months of the Year]
 ```
 **RESULT**
 
-| STT | NỘI DUNG | 31-12-2023 |QUÝ 1/2024_MỞ MỚI|QUÝ 1/2024_TẤT TOÁN|QUÝ 2/2024_MỞ MỚI|QUÝ 2/2024_TẤT TOÁN|30-06-2024|
+| STT | NOI DUNG | 31-12-2023 |QUY 1/2024_MO MOI|QUY 1/2024_TAT TOAN|QUY 2/2024_MO MOI|QUY 2/2024_TAT TOAN|30-06-2024|
 | :------------: | :-------------: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
 | 1 | Số khoản tiết kiệm | 11 | 25 | 2 | 24 | 3 | 55 |
 | 2 | Số lượng khách hàng | 7 | 19 | 0 | 8 | 0 | 34 |
@@ -284,42 +284,42 @@ SELECT * FROM [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
 ```sql
 
 -- TẠO BẢNG BÁO CÁO THEO TEMPLATE
-DROP TABLE [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
-CREATE TABLE [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM](
-   STT					Int
-  ,[TIÊU CHÍ]			Nvarchar(100)
-  ,[QUÝ I]			bigint
-  ,[QUÝ II]				bigint
-  ,[QUÝ III]			bigint
-  ,[QUÝ IV]				bigint
+DROP TABLE [Report on Settlement Situation in the First 6 Months of the Year]
+CREATE TABLE [Report on Settlement Situation in the First 6 Months of the Year](
+   STT				Int
+  ,[TIEU CHI]			Nvarchar(100)
+  ,[QUY I]			bigint
+  ,[QUY II]			bigint
+  ,[QUY III]			bigint
+  ,[QUY IV]			bigint
 );
  
--- INSERT CÁC THÔNG TIN CỐ ĐỊNH VÀO BÁO CÁO
+-- INSERT FIXED INFORMATION INTO REPORT
 
-INSERT INTO [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
+INSERT INTO [Report on Settlement Situation in the First 6 Months of the Year]
 (
 	 STT
-	,[TIÊU CHÍ]
-	,[QUÝ I]
-	,[QUÝ II]	
-	,[QUÝ III]
-	,[QUÝ IV]
+	,[TIEU CHI]
+	,[QUY I]
+	,[QUY II]	
+	,[QUY III]
+	,[QUY IV]
 )
 VALUES
  (1,N'Số tiền gốc phải trả',NULL,NULL,NULL,NULL)
 ,(2,N'Số tiền lãi phải trả',NULL,NULL,NULL,NULL)
 ,(3,N'Tổng',NULL,NULL,NULL,NULL)
 
-UPDATE [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
-	SET [QUÝ I] =
+UPDATE [Report on Settlement Situation in the First 6 Months of the Year]
+	SET [QUY I] =
 	(
-		CASE WHEN [TIÊU CHÍ] = N'Số tiền gốc phải trả' THEN (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-01-01' AND '2024-03-31')
-		     WHEN [TIÊU CHÍ] = N'Số tiền lãi phải trả' THEN 
+		CASE WHEN [TIEU CHI] = N'Số tiền gốc phải trả' THEN (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-01-01' AND '2024-03-31')
+		     WHEN [TIEU CHI] = N'Số tiền lãi phải trả' THEN 
 				(SELECT 
 					ROUND(SUM(((Value * interest/100)/365) * DATEDIFF(DAY,Sav_Date,Sav_end_date)),0) -- Tính toán lãi theo ngày
 				FROM SAVING_ACCOUNT
 				WHERE DATEPART(QUARTER,SAV_END_DATE) = 1 AND YEAR(Sav_end_date)=2024)
-		   	 WHEN [TIÊU CHÍ] = N'Tổng'				   THEN
+		   	 WHEN [TIEU CHI] = N'Tổng'				   THEN
 			 (
 			 (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-01-01' AND '2024-03-31')
 			 +
@@ -331,16 +331,16 @@ UPDATE [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
 			 END
 	)
 
-UPDATE [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
-	SET [QUÝ II] =
+UPDATE [Report on Settlement Situation in the First 6 Months of the Year]
+	SET [QUY II] =
 	(
-		CASE WHEN [TIÊU CHÍ] = N'Số tiền gốc phải trả' THEN (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-04-01' AND '2024-06-30')
-		     WHEN [TIÊU CHÍ] = N'Số tiền lãi phải trả' THEN 
+		CASE WHEN [TIEU CHI] = N'Số tiền gốc phải trả' THEN (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-04-01' AND '2024-06-30')
+		     WHEN [TIEU CHI] = N'Số tiền lãi phải trả' THEN 
 				(SELECT 
 					ROUND(SUM(((Value * interest/100)/365) * DATEDIFF(DAY,Sav_Date,Sav_end_date)),0) -- Tính toán lãi theo ngày
 				FROM SAVING_ACCOUNT
 				WHERE DATEPART(QUARTER,SAV_END_DATE) = 2 AND YEAR(Sav_end_date)=2024)
-		   	 WHEN [TIÊU CHÍ] = N'Tổng'				   THEN
+		   	 WHEN [TIEU CHI] = N'Tổng'				   THEN
 			 (
 			 (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-04-01' AND '2024-06-30')
 			 +
@@ -352,16 +352,16 @@ UPDATE [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
 			 END
 	)
 
-UPDATE [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
-	SET [QUÝ III] =
+UPDATE [Report on Settlement Situation in the First 6 Months of the Year]
+	SET [QUY III] =
 	(
-		CASE WHEN [TIÊU CHÍ] = N'Số tiền gốc phải trả' THEN (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-07-01' AND '2024-09-30')
-		     WHEN [TIÊU CHÍ] = N'Số tiền lãi phải trả' THEN 
+		CASE WHEN [TIEU CHI] = N'Số tiền gốc phải trả' THEN (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-07-01' AND '2024-09-30')
+		     WHEN [TIEU CHI] = N'Số tiền lãi phải trả' THEN 
 				(SELECT 
 					ROUND(SUM(((Value * interest/100)/365) * DATEDIFF(DAY,Sav_Date,Sav_end_date)),0) -- Tính toán lãi theo ngày
 				FROM SAVING_ACCOUNT
 				WHERE DATEPART(QUARTER,SAV_END_DATE) = 3 AND YEAR(Sav_end_date)=2024)
-		   	 WHEN [TIÊU CHÍ] = N'Tổng'				   THEN
+		   	 WHEN [TIEU CHI] = N'Tổng'				   THEN
 			 (
 			 (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-07-01' AND '2024-09-30')
 			 +
@@ -373,16 +373,16 @@ UPDATE [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
 			 END
 	)
 
-UPDATE [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
-	SET [QUÝ IV] =
+UPDATE [Report on Settlement Situation in the First 6 Months of the Year]
+	SET [QUY IV] =
 	(
-		CASE WHEN [TIÊU CHÍ] = N'Số tiền gốc phải trả' THEN (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-10-01' AND '2024-12-31')
-		     WHEN [TIÊU CHÍ] = N'Số tiền lãi phải trả' THEN 
+		CASE WHEN [TIEU CHI] = N'Số tiền gốc phải trả' THEN (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-10-01' AND '2024-12-31')
+		     WHEN [TIEU CHI] = N'Số tiền lãi phải trả' THEN 
 				(SELECT 
 					ROUND(SUM(((Value * interest/100)/365) * DATEDIFF(DAY,Sav_Date,Sav_end_date)),0) -- Tính toán lãi theo ngày
 				FROM SAVING_ACCOUNT
 				WHERE DATEPART(QUARTER,SAV_END_DATE) = 4 AND YEAR(Sav_end_date)=2024)
-		   	 WHEN [TIÊU CHÍ] = N'Tổng'				   THEN
+		   	 WHEN [TIEU CHI] = N'Tổng'				   THEN
 			 (
 			 (SELECT SUM(Value) FROM SAVING_ACCOUNT WHERE Sav_end_date BETWEEN '2024-10-01' AND '2024-12-31')
 			 +
@@ -394,13 +394,13 @@ UPDATE [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
 			 END
 	)
 
--- KẾT QUẢ
+-- RESULT
 
-SELECT * FROM [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
+SELECT * FROM [Report on Settlement Situation in the First 6 Months of the Year]
 ```
 **RESULT**
 
-|      Tiêu chí       |      Quý I       | Quý II    |Quý III| Quý IV|
+|      TIÊU CHÍ       |      Quy I       | Quy II    |Quy III| Quy IV|
 | :------------:|:-------------:|:-----:|:-----:|:-----:|
 |    Số tiền gốc phải trả          |        900,000,000      |  650,000,000    |  1,131,709,472    |1,041,764,834    |
 |     Số tiền lãi phải trả         |        192,672,000      |   60,535,397   |  95,909,301    |86,181,066    |
@@ -439,8 +439,8 @@ SELECT * FROM [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
 
 SELECT 
 PHANLOAI
-,COUNT(Saving_account_ID) AS [SỐ TÀI KHOẢN TIẾT KIỆM]
-,SUM(VALUE) AS [SỐ TIỀN TIẾT KIỆM]
+,COUNT(Saving_account_ID) AS [SO TAI KHOAN TIET KIEM]
+,SUM(VALUE) AS [SO TIEN TIET KIEM]
 FROM(
 	SELECT 
 	Saving_account_ID
@@ -455,7 +455,7 @@ GROUP BY PHANLOAI
 ```
 **RESULT**
 
-|      PHÂN LOẠI       |      SỐ TÀI KHOẢN TIẾT KIỆM       | SỐ TIỀN TIẾT KIỆM    |
+|      PHAN LOAI       |      SO TAI KHOAN TIET KIEM     | SO TIEN TIET KIEM   |
 | :------------:|:-------------:|:-----:|
 |    DUOI_1_TY          |        35      |  9,759,062,000    | 
 |     TU_1_DEN_10TYR        |        13     |   48,550,000,000   | 

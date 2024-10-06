@@ -262,6 +262,7 @@ SELECT * FROM [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
 + At the start (31-12-2023), there were 11 savings accounts.
 + In Q1/2024: 25 new accounts were opened, and 2 accounts were settled, leaving 34 accounts.
 + In Q2/2024: 24 new accounts were opened, and 3 accounts were settled, ending with 55 savings accounts by 30-06-2024.
+  
 => Insight: The number of savings accounts consistently increased, indicating a trend of more new accounts being opened than settled, with the total rising from 11 to 55 over 6 months.
 
 **- Number of customers:**
@@ -269,6 +270,7 @@ SELECT * FROM [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
 + At the start, there were 7 customers.
 + In Q1/2024: 19 new customers were added, with no settlements.
 + In Q2/2024: 8 new customers were added, with no settlements, resulting in 34 customers by the end of the period.
+  
 => Insight: The number of customers steadily increased with no drop-offs, almost quintupling over 6 months.
 
 **- Total savings amount:**
@@ -276,6 +278,7 @@ SELECT * FROM [BÁO CÁO TÌNH HÌNH HUY ĐỘNG VỐN 6 THÁNG ĐẦU NĂM]
 + Starting with 4.42 billion VND.
 + In Q1/2024: 56.18 billion VND in new savings were added, 900 million VND was settled, resulting in 59.70 billion VND by the end of the quarter.
 + In Q2/2024: An additional 17.13 billion VND in new savings were added, with 650 million VND settled, bringing the total to 76.18 billion VND by 30-06-2024.
+  
 => Insight: The total savings amount grew significantly from 4.42 billion to 76.18 billion over 6 months, reflecting substantial growth, especially in the mobilization of new funds.
 
 **=> Summary:** The number of customers, savings accounts, and the total savings amount all showed steady and significant growth during the first half of 2024, indicating a positive trend in capital mobilization.
@@ -414,12 +417,14 @@ SELECT * FROM [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
 + Q1: 900 million VND, decreased to 650 million VND in Q2 (a 27% drop).
 + Q3: A sharp increase to 1.13 billion VND (a 74% rise compared to Q2).
 + Q4: Slight decrease to 1.04 billion VND.
+  
 => Insight: There are significant fluctuations in principal repayment, particularly the sharp rise in Q3. This may reflect the due dates for large loans or an increase in loan demand.
 
 **- Interest repayment:**
 
 + Q1: 192.672 million VND, dropped significantly to 60.535 million VND in Q2 (a 69% decrease).
 + Q3 and Q4: Interest rose to 95.909 million VND and 86.181 million VND.
+  
 => Insight: The sharp drop in interest repayment in Q2 could be due to partial debt repayment or lower interest rates, but the interest amount increased again in Q3 and Q4, possibly due to additional borrowing or long-term loans.
 
 **- Total repayment (principal + interest):**
@@ -427,6 +432,7 @@ SELECT * FROM [BÁO CÁO TÌNH HÌNH TẤT TOÁN 6T CUỐI NĂM]
 + Q1: 1.09 billion VND.
 + Q2: Dropped significantly to 710 million VND (a 35% decrease).
 + Q3: Increased to 1.23 billion VND, then slightly decreased to 1.13 billion VND in Q4.
+  
 => Insight: Total repayment reached its lowest point in Q2, then increased again in the second half of the year, possibly due to increased loan demand or new loans being taken.
 
 **=> Overview:** Q2 was a period of significantly reduced financial pressure, but repayments surged in Q3. This indicates a proactive phase of debt and interest repayment early in the year, but financial pressure increased again towards the end, possibly due to additional borrowing or the maturity of loans.
